@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NiggaFlex Global — OTT & Digital Library</title>
+    <style>
+        :root {
+            --bg-main: #0a0a0c;
+            --bg-card: #121216;
+            --bg-card-hover: #181820;
+            --primary: #d91c1c;
+            --primary-hover: #ff2b2b;
+            --accent-gold: #e5a93c;
+            --accent-blue: #2575fc;
+            --accent-cyan: #00d2ff;
+            --text-main: #f0f0f5;
+            --text-muted: #9a9ab0;
+            --border-color: #262633;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-main); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text-main); line-height: 1.5; padding-bottom: 50px; }
+
+        header { background: #0e0e12; border-bottom: 2px solid var(--primary); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.6); flex-wrap: wrap; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo { color: var(--primary); font-size: 24px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .logo span { color: #fff; }
+
+        /* Navigation Menu Dropdown */
+        .nav-menu-wrapper { position: relative; }
+        .menu-btn { background: #1a1a24; color: #fff; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .menu-btn:hover { background: #242433; border-color: var(--primary); }
+        .dropdown-content { display: none; position: absolute; top: 110%; left: 0; background: #14141d; border: 1px solid var(--border-color); border-radius: 8px; min-width: 240px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 200; padding: 8px 0; }
+        .dropdown-content.show { display: block; animation: fadeIn 0.2s ease-in-out; }
+        .dropdown-item { padding: 12px 18px; color: var(--text-main); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.15s; }
+        .dropdown-item:hover, .dropdown-item.active { background: rgba(217, 28, 28, 0.15); color: var(--primary-hover); border-left: 3px solid var(--primary); }
+
+        /* Search Bar */
+        .header-search { flex: 1; max-width: 450px; position: relative; }
+        .search-input { width: 100%; background: #161620; border: 1px solid var(--border-color); padding: 9px 15px 9px 38px; color: #fff; border-radius: 20px; font-size: 14px; transition: 0.25s; }
+        .search-input:focus { border-color: var(--primary); outline: none; background: #1c1c2b; box-shadow: 0 0 10px rgba(217, 28, 28, 0.3); }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .btn { background: var(--primary); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        .btn-secondary { background: #222230; color: #fff; border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: #2d2d40; }
+        .btn-success { background: #1b8a47; color: #fff; }
+        .btn-success:hover { background: #22ab59; }
+        .btn-danger { background: #a81c1c; color: #fff; }
+        .btn-danger:hover { background: #d92323; }
+        .btn-sm { padding: 5px 10px; font-size: 12px; }
+
+        /* Banner Carousel */
+        .container { max-width: 1350px; margin: 0 auto; padding: 25px 20px; }
+        .banners-wrapper { margin-bottom: 35px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #181016 0%, #0d121d 100%); border: 1px solid var(--border-color); position: relative; }
+        .banner-card { display: flex; align-items: center; min-height: 280px; padding: 30px; gap: 30px; background-size: cover; background-position: center; position: relative; }
+        .banner-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,10,12,0.95) 0%, rgba(10,10,12,0.7) 60%, rgba(10,10,12,0.3) 100%); }
+        .banner-content { position: relative; z-index: 2; max-width: 650px; }
+        .banner-badge { display: inline-block; background: var(--primary); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 4px; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+        .banner-title { font-size: 28px; font-weight: 800; margin-bottom: 10px; color: #fff; line-height: 1.2; }
+        .banner-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+        .banner-img-preview { position: relative; z-index: 2; width: 180px; height: 240px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.7); flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+        .banner-img-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Section Headings */
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .section-title { font-size: 22px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .section-badge { font-size: 12px; font-weight: 600; color: var(--accent-gold); background: rgba(229,169,60,0.12); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(229,169,60,0.3); }
+
+        /* Media Grid & Cards */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .media-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; transition: 0.3s ease; position: relative; display: flex; flex-direction: column; }
+        .media-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 25px rgba(217, 28, 28, 0.15); }
+
+        .card-thumbnail-box { position: relative; width: 100%; aspect-ratio: 16/9; background: #050508; overflow: hidden; }
+        .card-thumbnail-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .media-card:hover .card-thumbnail-box img { transform: scale(1.05); }
+        .card-play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.25s; }
+        .media-card:hover .card-play-overlay { opacity: 1; }
+        .play-btn-circle { width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; box-shadow: 0 0 15px rgba(217,28,28,0.8); cursor: pointer; }
+
+        .card-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+        .card-tag-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
+        .card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: #fff; line-height: 1.3; }
+        .card-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+        .card-desc { font-size: 13px; color: #b8b8cc; line-height: 1.45; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .player-container { width: 100%; background: #000; min-height: 200px; position: relative; border-radius: 6px; overflow: hidden; margin-top: 10px; }
+        .player-container video, .player-container iframe, .player-container audio { width: 100%; display: block; }
+        .pdf-viewer-frame { width: 100%; height: 420px; border: none; background: #fff; border-radius: 6px; }
+
+        .card-actions { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+        .admin-controls { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; z-index: 20; opacity: 0; transition: 0.2s; }
+        .media-card:hover .admin-controls { opacity: 1; }
+
+        /* Admin Modal & Panel */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .modal-box { background: #13131b; border: 1px solid var(--border-color); border-radius: 12px; width: 100%; max-width: 750px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; }
+        .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); }
+        .modal-title { font-size: 20px; font-weight: 800; color: var(--primary); }
+        .close-modal { background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; }
+        .close-modal:hover { color: #fff; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #b8b8cc; }
+        .form-control { width: 100%; padding: 10px 14px; background: #1a1a26; border: 1px solid var(--border-color); color: #fff; border-radius: 6px; font-size: 14px; }
+        .form-control:focus { border-color: var(--primary); outline: none; background: #202030; }
+
+        .admin-dashboard { background: #13131c; border: 1px solid var(--primary); border-radius: 10px; padding: 25px; margin-bottom: 35px; display: none; }
+        .emp-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; background: rgba(217,28,28,0.15); color: var(--primary-hover); border: 1px solid rgba(217,28,28,0.3); margin-bottom: 15px; }
+
+        .tabs-header { display: flex; gap: 10px; border-bottom: 1px solid var(--border-color); margin-bottom: 20px; }
+        .tab-btn { background: none; border: none; color: var(--text-muted); padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: var(--primary-hover); border-bottom-color: var(--primary-hover); }
+
+        .emp-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .emp-table th, .emp-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .emp-table th { background: #1a1a26; color: var(--text-muted); font-size: 12px; text-transform: uppercase; }
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .status-active { background: rgba(27,138,71,0.2); color: #22ab59; border: 1px solid #1b8a47; }
+        .status-frozen { background: rgba(168,28,28,0.2); color: #ff4d4d; border: 1px solid #a81c1c; }
+
+        .dual-sync-container { display: grid; grid-template-columns: 1fr; gap: 15px; background: #0d0d12; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+
+        @media (min-width: 992px) {
+            .dual-sync-container.expanded { grid-template-columns: 1fr 1fr; }
+        }
+
+        .loading-text { text-align: center; color: var(--text-muted); padding: 50px; font-size: 16px; }
+        .notice-info { background: rgba(37,117,252,0.1); border: 1px solid rgba(37,117,252,0.3); color: #a3c5ff; padding: 12px 16px; border-radius: 6px; font-size: 13px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo" onclick="switchSection('movies')">🎬 Nigga<span>Flex</span></div>
+        <div class="nav-menu-wrapper">
+            <button class="menu-btn" onclick="toggleNavDropdown(event)">
+                <span>☰ Explore Sections</span>
+            </button>
+            <div id="navDropdown" class="dropdown-content">
+                <div class="dropdown-item active" id="menu-movies" onclick="switchSection('movies')">🎬 CineFlex Lounge (Movies & Series)</div>
+                <div class="dropdown-item" id="menu-books" onclick="switchSection('books')">📚 Literary Realms (Written Books)</div>
+                <div class="dropdown-item" id="menu-audiobooks" onclick="switchSection('audiobooks')">🎧 Sonic Narratives (Audio Books)</div>
+                <div class="dropdown-item" id="menu-dualsync" onclick="switchSection('dualsync')">📖 Dual-Sync Haven (Read & Listen)</div>
+                <div class="dropdown-item" id="menu-gallery" onclick="switchSection('gallery')">🖼️ Gallery & Promotions</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="globalSearchInput" class="search-input" placeholder="Search in CineFlex Lounge..." oninput="handleSearch(this.value)">
+    </div>
+
+    <div class="header-actions">
+        <button class="btn" id="adminPortalBtn" onclick="openAuthModal()">🔐 Admin Portal</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- Promotional Banners Carousel -->
+    <div id="bannersCarousel" class="banners-wrapper" style="display:none;"></div>
+
+    <!-- Admin Dashboard (When Authenticated) -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+            <div>
+                <h2 style="color:var(--primary); font-weight:800;">Executive Content Management System</h2>
+                <div id="empBadge" class="emp-badge">Logged in: Authenticated Manager</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="logoutAdmin()">🔒 Lock Dashboard</button>
+        </div>
+
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchAdminTab('publish')">➕ Publish Content</button>
+            <button class="tab-btn" onclick="switchAdminTab('banners')">🏷️ Manage Banners</button>
+            <button class="tab-btn" id="freezeTabBtn" style="display:none;" onclick="switchAdminTab('freeze')">🔒 Employee ID Portal</button>
+        </div>
+
+        <!-- Tab 1: Publish Content -->
+        <div id="tabPublish" class="tab-content">
+            <div class="form-group">
+                <label>Content Type / Format</label>
+                <select id="contentType" class="form-control" onchange="toggleFormMode()">
+                    <option value="movie">Movie (Single Feature Feature)</option>
+                    <option value="series">Series (Multi-Season / Episode Stream)</option>
+                    <option value="book_single">Written Book — Standalone Novel (PDF Upload)</option>
+                    <option value="book_series">Written Book — Volume Chronicles / Series (PDF Uploads)</option>
+                    <option value="audiobook">Audio Book — Sonic Narrative (Audio Link)</option>
+                    <option value="dual_sync">Dual-Sync Book — Read & Listen (PDF + Audio)</option>
+                    <option value="picture">Gallery Picture / Image</option>
+                </select>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div class="form-group"><label>Title / Name</label><input type="text" id="title" class="form-control"></div>
+                <div class="form-group"><label>Genre</label><input type="text" id="genre" class="form-control" placeholder="e.g. Action, Sci-Fi, Mystery"></div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div class="form-group"><label>Creator / Author / Studio</label><input type="text" id="creator" class="form-control" placeholder="e.g. Author Name or Studio"></div>
+                <div class="form-group"><label>Thumbnail / Cover Image URL</label><input type="text" id="thumbnail" class="form-control" placeholder="https://image-link.com/poster.jpg"></div>
+            </div>
+
+            <div class="form-group"><label>Description</label><textarea id="description" class="form-control" rows="3"></textarea></div>
+
+            <!-- Asset Inputs Area -->
+            <div id="mediaAssetInputs" style="background:#181824; padding:18px; border-radius:8px; margin-bottom:20px; border:1px solid var(--border-color);">
+                <h4 id="assetFormTitle" style="margin-bottom:12px; color:var(--primary);">Video Distribution</h4>
+
+                <!-- Movie Inputs -->
+                <div id="movieInputs" class="form-group">
+                    <label>Movie Video Stream URL (MP4 / Archive.org)</label>
+                    <input type="text" id="movieUrl" class="form-control" placeholder="https://archive.org/download/identifier/file.mp4">
+                    <label style="margin-top:10px;">Trailer Video URL (Optional)</label>
+                    <input type="text" id="movieTrailerUrl" class="form-control" placeholder="https://archive.org/download/trailer/file.mp4">
+                </div>
+
+                <!-- Written Book Single Inputs (PDF Direct Upload) -->
+                <div id="pdfSingleInputs" class="form-group" style="display:none;">
+                    <label>Upload Written Book PDF Document (Direct from storage)</label>
+                    <input type="file" id="pdfFileInput" class="form-control" accept=".pdf">
+                    <div id="pdfUploadStatus" style="font-size:12px; color:var(--accent-gold); margin-top:5px;"></div>
+                </div>
+
+                <!-- Audio Book Inputs -->
+                <div id="audioInputs" class="form-group" style="display:none;">
+                    <label>Audio Stream URL (MP3 / M4A / Archive Audio Link)</label>
+                    <input type="text" id="audioUrl" class="form-control" placeholder="https://archive.org/download/identifier/audio.mp3">
+                </div>
+
+                <!-- Dual Sync Inputs -->
+                <div id="dualSyncInputs" class="form-group" style="display:none;">
+                    <label>Upload Written PDF Document</label>
+                    <input type="file" id="dualPdfFileInput" class="form-control" accept=".pdf">
+                    <label style="margin-top:10px;">Audio Stream URL</label>
+                    <input type="text" id="dualAudioUrl" class="form-control" placeholder="https://archive.org/download/identifier/narration.mp3">
+                </div>
+
+                <!-- Picture Inputs -->
+                <div id="pictureInputs" class="form-group" style="display:none;">
+                    <label>Picture / Image URL</label>
+                    <input type="text" id="pictureUrl" class="form-control" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <!-- Series / Staged Chapters Inputs -->
+                <div id="seriesInputs" style="display:none;">
+                    <div class="notice-info">Stage multiple episodes or book chapters below:</div>
+                    <div style="display:grid; grid-template-columns: 80px 80px 1fr 1.2fr; gap:10px; margin-bottom:10px;">
+                        <input type="number" id="epSeason" class="form-control" placeholder="Season/Vol" value="1">
+                        <input type="number" id="epNumber" class="form-control" placeholder="Ep/Ch" value="1">
+                        <input type="text" id="epName" class="form-control" placeholder="Episode/Chapter Name">
+                        <input type="text" id="epUrl" class="form-control" placeholder="Video/Audio URL or PDF Key">
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="addEpisodeToBatch()">+ Stage Chapter/Episode</button>
+                    <div id="stagedEpisodesCount" style="margin-top:8px; font-weight:bold; color:var(--primary-hover);">Staged: 0 Items</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="publishMediaAsset()">🚀 Publish to Live Catalog</button>
+        </div>
+
+        <!-- Tab 2: Manage Banners -->
+        <div id="tabBanners" class="tab-content" style="display:none;">
+            <h4 style="margin-bottom:15px; color:var(--accent-gold);">Create Promotional Banner</h4>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div class="form-group"><label>Banner Title</label><input type="text" id="bannerTitle" class="form-control"></div>
+                <div class="form-group"><label>Badge Text</label><input type="text" id="bannerBadge" class="form-control" placeholder="e.g. FEATURED RELEASE"></div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div class="form-group"><label>Subtitle / Description</label><input type="text" id="bannerSubtitle" class="form-control"></div>
+                <div class="form-group"><label>Image Poster URL</label><input type="text" id="bannerImageUrl" class="form-control"></div>
+            </div>
+            <div class="form-group">
+                <label>Target Section Link</label>
+                <select id="bannerSection" class="form-control">
+                    <option value="movies">CineFlex Lounge (Movies & Series)</option>
+                    <option value="books">Literary Realms (Written Books)</option>
+                    <option value="audiobooks">Sonic Narratives (Audio Books)</option>
+                    <option value="dualsync">Dual-Sync Haven (Read & Listen)</option>
+                </select>
+            </div>
+            <button class="btn btn-success" onclick="publishBanner()">🏷️ Publish Banner</button>
+
+            <h4 style="margin-top:30px; margin-bottom:15px; color:#fff;">Active Banners</h4>
+            <div id="adminBannersList"></div>
+        </div>
+
+        <!-- Tab 3: Freeze Employee Portal -->
+        <div id="tabFreeze" class="tab-content" style="display:none;">
+            <h4 style="margin-bottom:15px; color:var(--primary);">Employee ID Security & Access Control Portal</h4>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">
+                Executive Management Portal: CEO Mubashir Holmes and Hassan Nolan have authority to manage employee credentials.
+            </p>
+            <table class="emp-table">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Role</th>
+                        <th>ID Key</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="empTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="section-header">
+        <div class="section-title">
+            <span id="currentSectionIcon">🎬</span>
+            <span id="currentSectionTitle">CineFlex Lounge</span>
+        </div>
+        <div id="currentSectionBadge" class="section-badge">Movies & Series Stream</div>
+    </div>
+
+    <div id="publicGrid" class="media-grid">
+        <p class="loading-text">Loading NiggaFlex Catalog...</p>
+    </div>
+
+</div>
+
+<!-- Admin Login Modal -->
+<div id="authModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="modal-title">🔐 Executive Security Authentication</div>
+            <button class="close-modal" onclick="closeAuthModal()">✕</button>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">
+            Access to the Content Management System requires uploading your official Employee ID document in <strong>PDF format</strong> directly from your phone/device storage.
+        </p>
+
+        <div class="form-group">
+            <label>Select Official Employee ID PDF Document</label>
+            <input type="file" id="idPdfInput" class="form-control" accept=".pdf">
+        </div>
+
+        <div id="authErrorMsg" style="color:var(--primary-hover); font-size:13px; margin-bottom:15px; display:none; background:rgba(217,28,28,0.1); padding:10px; border-radius:4px; border:1px solid rgba(217,28,28,0.3);"></div>
+
+        <button class="btn" style="width:100%; justify-content:center;" onclick="submitAuthPdf()">🔓 Upload ID & Authenticate</button>
+    </div>
+</div>
+
+<!-- Edit Content Modal -->
+<div id="editModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="modal-title">✏️ Edit Catalog Item</div>
+            <button class="close-modal" onclick="closeEditModal()">✕</button>
+        </div>
+        <input type="hidden" id="editItemId">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <div class="form-group"><label>Title</label><input type="text" id="editTitle" class="form-control"></div>
+            <div class="form-group"><label>Genre</label><input type="text" id="editGenre" class="form-control"></div>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <div class="form-group"><label>Creator / Studio</label><input type="text" id="editCreator" class="form-control"></div>
+            <div class="form-group"><label>Thumbnail / Cover URL</label><input type="text" id="editThumbnail" class="form-control"></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea id="editDescription" class="form-control" rows="3"></textarea></div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button class="btn" onclick="saveEditedItem()">💾 Save Changes</button>
+            <button class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let catalog = [];
+    let banners = [];
+    let currentSection = 'movies';
+    let searchQuery = '';
+    let adminToken = localStorage.getItem('adminToken') || '';
+    let currentEmployee = JSON.parse(localStorage.getItem('adminEmployee') || 'null');
+    let stagedEpisodes = [];
+
+    // Navigation & Dropdown
+    function toggleNavDropdown(e) {
+        e.stopPropagation();
+        document.getElementById('navDropdown').classList.toggle('show');
+    }
+
+    document.addEventListener('click', () => {
+        document.getElementById('navDropdown').classList.remove('show');
+    });
+
+    function switchSection(sec) {
+        currentSection = sec;
+        document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('active'));
+        const menuEl = document.getElementById(`menu-${sec}`);
+        if (menuEl) menuEl.classList.add('active');
+
+        const sectionConfig = {
+            movies: { icon: '🎬', title: 'CineFlex Lounge', badge: 'Movies & Series Stream', placeholder: 'Search Movies & Series...' },
+            books: { icon: '📚', title: 'Literary Realms', badge: 'Standalone Novels & Volume Chronicles', placeholder: 'Search Written Books...' },
+            audiobooks: { icon: '🎧', title: 'Sonic Narratives', badge: 'Audio Books Stream', placeholder: 'Search Audio Books...' },
+            dualsync: { icon: '📖🎧', title: 'Dual-Sync Haven', badge: 'Read While Listening Experience', placeholder: 'Search Read & Listen Books...' },
+            gallery: { icon: '🖼️', title: 'Gallery & Banners', badge: 'Promotional Highlights', placeholder: 'Search Gallery...' }
+        };
+
+        const conf = sectionConfig[sec] || sectionConfig.movies;
+        document.getElementById('currentSectionIcon').innerText = conf.icon;
+        document.getElementById('currentSectionTitle').innerText = conf.title;
+        document.getElementById('currentSectionBadge').innerText = conf.badge;
+        document.getElementById('globalSearchInput').placeholder = conf.placeholder;
+
+        renderCatalog();
+        renderBanners();
+    }
+
+    function handleSearch(query) {
+        searchQuery = query.toLowerCase().trim();
+        renderCatalog();
+    }
+
+    // Helper functions
+    function escHtml(str) {
+        return (str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function getArchiveIdentifier(url) {
+        if (!url) return null;
+        const m = url.match(/archive\.org\/(?:download|details|embed)\/([^\/\?#]+)/);
+        return m ? m[1] : null;
+    }
+
+    function buildPlayerHtml(url, itemId) {
+        if (!url) return '<div class="loading-text">No media stream provided</div>';
+        const archiveId = getArchiveIdentifier(url);
+        if (archiveId) {
+            return `<iframe id="player-${itemId}" src="https://archive.org/embed/${archiveId}?autoplay=0" frameborder="0" allowfullscreen style="width:100%;height:100%;min-height:220px;"></iframe>`;
+        }
+        return `<video id="player-${itemId}" controls preload="metadata" style="width:100%;height:100%;max-height:260px;">
+                    <source src="${escHtml(url)}" type="video/mp4">
+                    Your browser does not support video playback.
+                </video>`;
+    }
+
+    // Auth & Employee Management
+    function openAuthModal() {
+        document.getElementById('authModal').style.display = 'flex';
+        document.getElementById('authErrorMsg').style.display = 'none';
+    }
+
+    function closeAuthModal() {
+        document.getElementById('authModal').style.display = 'none';
+    }
+
+    async function submitAuthPdf() {
+        const fileInput = document.getElementById('idPdfInput');
+        const errEl = document.getElementById('authErrorMsg');
+        errEl.style.display = 'none';
+
+        if (!fileInput.files || fileInput.files.length === 0) {
+            errEl.innerText = 'Please select your Employee ID PDF file from storage.';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('idPdf', fileInput.files[0]);
+
+        try {
+            const res = await fetch('/api/auth', { method: 'POST', body: formData });
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                adminToken = data.token;
+                currentEmployee = data.employee;
+                localStorage.setItem('adminToken', adminToken);
+                localStorage.setItem('adminEmployee', JSON.stringify(currentEmployee));
+
+                closeAuthModal();
+                updateAdminDashboardUI();
+                renderCatalog();
+            } else {
+                errEl.innerText = data.error || 'Authentication failed.';
+                errEl.style.display = 'block';
+            }
+        } catch (err) {
+            errEl.innerText = 'Error connecting to authentication server.';
+            errEl.style.display = 'block';
+        }
+    }
+
+    function logoutAdmin() {
+        adminToken = '';
+        currentEmployee = null;
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminEmployee');
+        document.getElementById('adminDashboard').style.display = 'none';
+        renderCatalog();
+    }
+
+    function updateAdminDashboardUI() {
+        if (!adminToken || !currentEmployee) return;
+
+        document.getElementById('adminDashboard').style.display = 'block';
+        document.getElementById('empBadge').innerText = `Logged in: ${currentEmployee.name} (${currentEmployee.role.toUpperCase()})`;
+
+        if (currentEmployee.role === 'ceo' || currentEmployee.role === 'co_exec') {
+            document.getElementById('freezeTabBtn').style.display = 'inline-block';
+            loadEmployeeFreezeList();
+        } else {
+            document.getElementById('freezeTabBtn').style.display = 'none';
+        }
+    }
+
+    function switchAdminTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+
+        if (tab === 'publish') {
+            document.getElementById('tabPublish').style.display = 'block';
+        } else if (tab === 'banners') {
+            document.getElementById('tabBanners').style.display = 'block';
+            loadAdminBanners();
+        } else if (tab === 'freeze') {
+            document.getElementById('tabFreeze').style.display = 'block';
+            loadEmployeeFreezeList();
+        }
+    }
+
+    async function loadEmployeeFreezeList() {
+        if (!adminToken) return;
+        const res = await fetch('/api/employees', {
+            headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const tbody = document.getElementById('empTableBody');
+        tbody.innerHTML = '';
+
+        data.employees.forEach(emp => {
+            const statusBadge = emp.isFrozen 
+                ? `<span class="status-badge status-frozen">FROZEN</span>` 
+                : `<span class="status-badge status-active">ACTIVE</span>`;
+
+            let actionBtn = '';
+            if (emp.isFrozen) {
+                actionBtn = `<button class="btn btn-success btn-sm" onclick="toggleFreeze('${emp.idKey}', 'unfreeze')">Unfreeze ID</button>`;
+            } else {
+                actionBtn = `<button class="btn btn-danger btn-sm" onclick="toggleFreeze('${emp.idKey}', 'freeze')">Freeze ID</button>`;
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${escHtml(emp.name)}</strong></td>
+                <td>${emp.role.toUpperCase()}</td>
+                <td><code>${emp.idKey}</code></td>
+                <td>${statusBadge}</td>
+                <td>${actionBtn}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function toggleFreeze(targetIdKey, action) {
+        if (!confirm(`Are you sure you want to ${action} this employee ID?`)) return;
+
+        const res = await fetch('/api/employees', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${adminToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ targetIdKey, action })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert(data.message);
+            loadEmployeeFreezeList();
+        } else {
+            alert(data.error || 'Operation failed');
+        }
+    }
+
+    // Form mode & upload
+    function toggleFormMode() {
+        const type = document.getElementById('contentType').value;
+        document.getElementById('movieInputs').style.display = (type === 'movie') ? 'block' : 'none';
+        document.getElementById('pdfSingleInputs').style.display = (type === 'book_single') ? 'block' : 'none';
+        document.getElementById('audioInputs').style.display = (type === 'audiobook') ? 'block' : 'none';
+        document.getElementById('dualSyncInputs').style.display = (type === 'dual_sync') ? 'block' : 'none';
+        document.getElementById('pictureInputs').style.display = (type === 'picture') ? 'block' : 'none';
+        document.getElementById('seriesInputs').style.display = (type === 'series' || type === 'book_series') ? 'block' : 'none';
+    }
+
+    function addEpisodeToBatch() {
+        const season = document.getElementById('epSeason').value;
+        const episode = document.getElementById('epNumber').value;
+        const name = document.getElementById('epName').value.trim();
+        const url = document.getElementById('epUrl').value.trim();
+        if (!url) return alert('Provide a valid URL or asset key.');
+
+        stagedEpisodes.push({ season: parseInt(season), episode: parseInt(episode), name, url });
+        document.getElementById('stagedEpisodesCount').innerText = `Staged: ${stagedEpisodes.length} Item(s)`;
+        document.getElementById('epNumber').value = parseInt(episode) + 1;
+        document.getElementById('epName').value = '';
+        document.getElementById('epUrl').value = '';
+    }
+
+    async function publishMediaAsset() {
+        if (!adminToken) return openAuthModal();
+
+        const type = document.getElementById('contentType').value;
+        const title = document.getElementById('title').value.trim();
+        const genre = document.getElementById('genre').value.trim();
+        const creator = document.getElementById('creator').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const thumbnail = document.getElementById('thumbnail').value.trim();
+
+        if (!title || !genre || !creator) return alert('Title, Genre, and Creator/Author are required.');
+
+        let content = [];
+
+        if (type === 'movie') {
+            const url = document.getElementById('movieUrl').value.trim();
+            const trailer = document.getElementById('movieTrailerUrl').value.trim();
+            if (!url) return alert('Movie requires a video stream URL.');
+            content.push({ season: 1, episode: 1, url: JSON.stringify({ videoUrl: url, trailerUrl: trailer }) });
+        } else if (type === 'book_single') {
+            const pdfFile = document.getElementById('pdfFileInput').files[0];
+            if (!pdfFile) return alert('Please select a PDF document to upload.');
+
+            document.getElementById('pdfUploadStatus').innerText = 'Uploading PDF document...';
+            const formData = new FormData();
+            formData.append('pdf', pdfFile);
+
+            const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
+            const uploadData = await uploadRes.json();
+            if (!uploadRes.ok) return alert('PDF Upload failed: ' + uploadData.error);
+
+            content.push({ season: 1, episode: 1, url: uploadData.url });
+        } else if (type === 'audiobook') {
+            const audioUrl = document.getElementById('audioUrl').value.trim();
+            if (!audioUrl) return alert('Audio book requires an audio stream URL.');
+            content.push({ season: 1, episode: 1, url: audioUrl });
+        } else if (type === 'dual_sync') {
+            const pdfFile = document.getElementById('dualPdfFileInput').files[0];
+            const audioUrl = document.getElementById('dualAudioUrl').value.trim();
+            if (!pdfFile || !audioUrl) return alert('Dual-Sync book requires both PDF upload AND audio stream URL.');
+
+            const formData = new FormData();
+            formData.append('pdf', pdfFile);
+            const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
+            const uploadData = await uploadRes.json();
+
+            content.push({ season: 1, episode: 1, url: JSON.stringify({ pdfUrl: uploadData.url, audioUrl }) });
+        } else if (type === 'picture') {
+            const picUrl = document.getElementById('pictureUrl').value.trim();
+            if (!picUrl) return alert('Picture URL required.');
+            content.push({ season: 1, episode: 1, url: picUrl });
+        } else {
+            if (stagedEpisodes.length === 0) return alert('Stage at least 1 chapter or episode.');
+            content = [...stagedEpisodes];
+        }
+
+        const res = await fetch('/api/catalog', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${adminToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ type, title, genre, creator, description, thumbnail, content })
+        });
+
+        if (res.ok) {
+            alert('Content successfully published to catalog!');
+            stagedEpisodes = [];
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+            await loadCatalog();
+            renderCatalog();
+        } else {
+            const err = await res.json();
+            alert('Publish failed: ' + (err.error || 'Server error'));
+        }
+    }
+
+    async function deleteAsset(id) {
+        if (!adminToken) return openAuthModal();
+        if (!confirm('Permanently delete this item from the storefront?')) return;
+
+        const res = await fetch(`/api/catalog?id=${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+
+        if (res.ok) {
+            await loadCatalog();
+            renderCatalog();
+        } else {
+            const err = await res.json();
+            alert('Delete failed: ' + (err.error || 'Permission denied'));
+        }
+    }
+
+    // Edit Modal
+    function openEditModal(id) {
+        if (!adminToken) return openAuthModal();
+        const item = catalog.find(i => i.id === id);
+        if (!item) return;
+
+        document.getElementById('editItemId').value = id;
+        document.getElementById('editTitle').value = item.title;
+        document.getElementById('editGenre').value = item.genre;
+        document.getElementById('editCreator').value = item.creator;
+        document.getElementById('editThumbnail').value = item.thumbnail || '';
+        document.getElementById('editDescription').value = item.description;
+
+        document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+
+    async function saveEditedItem() {
+        const id = document.getElementById('editItemId').value;
+        const title = document.getElementById('editTitle').value.trim();
+        const genre = document.getElementById('editGenre').value.trim();
+        const creator = document.getElementById('editCreator').value.trim();
+        const thumbnail = document.getElementById('editThumbnail').value.trim();
+        const description = document.getElementById('editDescription').value.trim();
+
+        const res = await fetch(`/api/catalog?id=${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${adminToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, genre, creator, thumbnail, description })
+        });
+
+        if (res.ok) {
+            closeEditModal();
+            await loadCatalog();
+            renderCatalog();
+        } else {
+            alert('Failed to save changes.');
+        }
+    }
+
+    // Banners
+    async function publishBanner() {
+        if (!adminToken) return openAuthModal();
+
+        const title = document.getElementById('bannerTitle').value.trim();
+        const badgeText = document.getElementById('bannerBadge').value.trim();
+        const subtitle = document.getElementById('bannerSubtitle').value.trim();
+        const imageUrl = document.getElementById('bannerImageUrl').value.trim();
+        const section = document.getElementById('bannerSection').value;
+
+        if (!title || !imageUrl) return alert('Title and Image URL are required.');
+
+        const res = await fetch('/api/banners', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${adminToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, badgeText, subtitle, imageUrl, section })
+        });
+
+        if (res.ok) {
+            alert('Banner published successfully!');
+            document.getElementById('bannerTitle').value = '';
+            document.getElementById('bannerImageUrl').value = '';
+            await loadBanners();
+            renderBanners();
+            loadAdminBanners();
+        } else {
+            alert('Failed to publish banner.');
+        }
+    }
+
+    async function loadBanners() {
+        const res = await fetch('/api/banners');
+        if (res.ok) {
+            banners = await res.json();
+        }
+    }
+
+    function renderBanners() {
+        const wrapper = document.getElementById('bannersCarousel');
+        const activeBanners = banners.filter(b => b.section === currentSection || currentSection === 'gallery');
+
+        if (activeBanners.length === 0) {
+            wrapper.style.display = 'none';
+            return;
+        }
+
+        wrapper.style.display = 'block';
+        const topBanner = activeBanners[0];
+
+        wrapper.innerHTML = `
+            <div class="banner-card">
+                <div class="banner-content">
+                    <div class="banner-badge">${escHtml(topBanner.badgeText)}</div>
+                    <div class="banner-title">${escHtml(topBanner.title)}</div>
+                    <div class="banner-sub">${escHtml(topBanner.subtitle)}</div>
+                    <button class="btn" onclick="switchSection('${topBanner.section}')">Explore Feature</button>
+                </div>
+                <div class="banner-img-preview">
+                    <img src="${escHtml(topBanner.imageUrl)}" alt="${escHtml(topBanner.title)}">
+                </div>
+            </div>
+        `;
+    }
+
+    async function loadAdminBanners() {
+        const container = document.getElementById('adminBannersList');
+        container.innerHTML = '';
+        banners.forEach(b => {
+            const div = document.createElement('div');
+            div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#1a1a26; padding:10px; border-radius:6px; margin-bottom:8px;';
+            div.innerHTML = `
+                <div><strong>${escHtml(b.title)}</strong> (${b.section})</div>
+                <button class="btn btn-danger btn-sm" onclick="deleteBanner('${b.id}')">Delete</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    async function deleteBanner(id) {
+        if (!confirm('Delete this banner?')) return;
+        const res = await fetch(`/api/banners?id=${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        if (res.ok) {
+            await loadBanners();
+            renderBanners();
+            loadAdminBanners();
+        }
+    }
+
+    // Catalog Data Fetch & Filter
+    async function loadCatalog() {
+        const res = await fetch('/api/catalog');
+        if (res.ok) {
+            catalog = await res.json();
+        }
+    }
+
+    function renderCatalog() {
+        const grid = document.getElementById('publicGrid');
+        grid.innerHTML = '';
+
+        // Filter catalog based on active section & search query
+        let filtered = catalog.filter(item => {
+            if (currentSection === 'movies') {
+                return item.type === 'movie' || item.type === 'series';
+            } else if (currentSection === 'books') {
+                return item.type === 'book_single' || item.type === 'book_series';
+            } else if (currentSection === 'audiobooks') {
+                return item.type === 'audiobook';
+            } else if (currentSection === 'dualsync') {
+                return item.type === 'dual_sync';
+            } else if (currentSection === 'gallery') {
+                return item.type === 'picture';
+            }
+            return true;
+        });
+
+        if (searchQuery) {
+            filtered = filtered.filter(item => 
+                (item.title && item.title.toLowerCase().includes(searchQuery)) ||
+                (item.genre && item.genre.toLowerCase().includes(searchQuery)) ||
+                (item.creator && item.creator.toLowerCase().includes(searchQuery)) ||
+                (item.description && item.description.toLowerCase().includes(searchQuery))
+            );
+        }
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `<p class="loading-text">No items found in this section.</p>`;
+            return;
+        }
+
+        const canDelete = adminToken && currentEmployee && (currentEmployee.role === 'ceo' || currentEmployee.role === 'co_exec');
+        const canEdit = !!adminToken;
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'media-card';
+            card.id = `card-${item.id}`;
+
+            const deleteBtnHtml = canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteAsset(${item.id})">🗑️ Delete</button>` : '';
+            const editBtnHtml = canEdit ? `<button class="btn btn-secondary btn-sm" onclick="openEditModal(${item.id})">✏️ Edit</button>` : '';
+            const adminBar = (canDelete || canEdit) ? `<div class="admin-controls">${editBtnHtml} ${deleteBtnHtml}</div>` : '';
+
+            // Render Poster Thumbnail
+            let thumbnailHtml = '';
+            if (item.thumbnail) {
+                thumbnailHtml = `<div class="card-thumbnail-box">
+                    <img src="${escHtml(item.thumbnail)}" alt="${escHtml(item.title)}">
+                    <div class="card-play-overlay">
+                        <div class="play-btn-circle">▶</div>
+                    </div>
+                </div>`;
+            }
+
+            // Render Content Player or View based on content type
+            let playerContentHtml = '';
+            const firstContent = item.content[0] || {};
+            let rawUrlData = firstContent.url || '';
+
+            if (item.type === 'movie' || item.type === 'series') {
+                let videoUrl = rawUrlData;
+                let trailerUrl = '';
+                try {
+                    const parsed = JSON.parse(rawUrlData);
+                    videoUrl = parsed.videoUrl || rawUrlData;
+                    trailerUrl = parsed.trailerUrl || '';
+                } catch(e) {}
+
+                const player = buildPlayerHtml(videoUrl, item.id);
+                const trailerBtn = trailerUrl ? `<a href="${escHtml(trailerUrl)}" target="_blank" class="btn btn-secondary btn-sm" style="margin-top:10px;">🎬 Watch Trailer</a>` : '';
+
+                playerContentHtml = `<div class="player-container">${player}</div>${trailerBtn}`;
+
+            } else if (item.type === 'book_single' || item.type === 'book_series') {
+                const pdfUrl = rawUrlData;
+                playerContentHtml = `
+                    <div class="player-container">
+                        <iframe src="${escHtml(pdfUrl)}" class="pdf-viewer-frame"></iframe>
+                    </div>
+                    <div class="card-actions">
+                        <a href="${escHtml(pdfUrl)}" target="_blank" class="btn btn-sm">📖 Open Full PDF</a>
+                        <a href="${escHtml(pdfUrl)}" download class="btn btn-secondary btn-sm">⬇ Download PDF</a>
+                    </div>
+                `;
+            } else if (item.type === 'audiobook') {
+                playerContentHtml = `
+                    <div class="player-container" style="padding:15px; background:#161622; min-height:auto;">
+                        <audio controls style="width:100%;">
+                            <source src="${escHtml(rawUrlData)}">
+                        </audio>
+                    </div>
+                `;
+            } else if (item.type === 'dual_sync') {
+                let pdfUrl = '', audioUrl = '';
+                try {
+                    const parsed = JSON.parse(rawUrlData);
+                    pdfUrl = parsed.pdfUrl || '';
+                    audioUrl = parsed.audioUrl || '';
+                } catch(e) {}
+
+                playerContentHtml = `
+                    <div class="dual-sync-container">
+                        <div style="background:#161622; padding:10px; border-radius:6px;">
+                            <span style="font-size:11px; font-weight:bold; color:var(--accent-gold); display:block; margin-bottom:5px;">AUDIO NARRATION</span>
+                            <audio controls style="width:100%;">
+                                <source src="${escHtml(audioUrl)}">
+                            </audio>
+                        </div>
+                        <div>
+                            <span style="font-size:11px; font-weight:bold; color:var(--accent-cyan); display:block; margin-bottom:5px;">WRITTEN TEXT (PDF)</span>
+                            <iframe src="${escHtml(pdfUrl)}" class="pdf-viewer-frame" style="height:320px;"></iframe>
+                        </div>
+                    </div>
+                `;
+            } else if (item.type === 'picture') {
+                playerContentHtml = `<div class="player-container" style="min-height:auto;"><img src="${escHtml(rawUrlData)}" style="width:100%; max-height:350px; object-fit:contain;"></div>`;
+            }
+
+            card.innerHTML = `
+                ${adminBar}
+                ${thumbnailHtml}
+                <div class="card-body">
+                    <div class="card-tag-row">
+                        <span>${escHtml(item.creator)}</span>
+                        <span>${escHtml(item.type)}</span>
+                    </div>
+                    <div class="card-title">${escHtml(item.title)}</div>
+                    <div class="card-meta">Genre: <strong>${escHtml(item.genre)}</strong></div>
+                    <div class="card-desc">${escHtml(item.description)}</div>
+                    ${playerContentHtml}
+                </div>
+            `;
+
+            grid.appendChild(card);
+        });
+    }
+
+    // Init
+    updateAdminDashboardUI();
+    loadBanners().then(() => renderBanners());
+    loadCatalog().then(() => renderCatalog());
+</script>
+</body>
+</html>
