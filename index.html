@@ -2,8 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiggaFlex Global — OTT & Digital Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NiggaFlex Global — Stream Movies, Series & Books | Mubashir Holmes & Hassan Nolan</title>
+    <meta name="description" content="NiggaFlex Global is the OTT streaming platform and digital library founded by CEO Mubashir Holmes and Hassan Nolan. Watch movies and series, read books, and listen to audio books online.">
+    <meta name="keywords" content="NiggaFlex Global, Niggaflex, NiggaFlex streaming, Mubashir Holmes, CEO Mubashir Holmes, Hassan Nolan, OTT platform, stream movies online, watch series online, audio books, digital library, Internet Archive movies">
+    <meta name="author" content="NiggaFlex Global — Mubashir Holmes & Hassan Nolan">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#d91c1c">
+    <link rel="canonical" href="https://clinquant-buttercream-73c01f.netlify.app/">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="NiggaFlex Global">
+    <meta property="og:url" content="https://clinquant-buttercream-73c01f.netlify.app/">
+    <meta property="og:title" content="NiggaFlex Global — Movies, Series & Books by Mubashir Holmes & Hassan Nolan">
+    <meta property="og:description" content="Stream movies and series, read books and listen to audio books on NiggaFlex Global, led by CEO Mubashir Holmes and Hassan Nolan.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NiggaFlex Global — Movies, Series & Books">
+    <meta name="twitter:description" content="The OTT platform and digital library led by CEO Mubashir Holmes and Hassan Nolan.">
+
+    <link rel="preconnect" href="https://archive.org">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://clinquant-buttercream-73c01f.netlify.app/#org",
+                "name": "NiggaFlex Global",
+                "url": "https://clinquant-buttercream-73c01f.netlify.app/",
+                "founder": [
+                    { "@type": "Person", "name": "Mubashir Holmes", "jobTitle": "Chief Executive Officer" },
+                    { "@type": "Person", "name": "Hassan Nolan", "jobTitle": "Co-Executive" }
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "name": "NiggaFlex Global",
+                "url": "https://clinquant-buttercream-73c01f.netlify.app/",
+                "publisher": { "@id": "https://clinquant-buttercream-73c01f.netlify.app/#org" }
+            }
+        ]
+    }
+    </script>
     <style>
         :root {
             --bg-main: #0a0a0c;
@@ -90,6 +133,44 @@
 
         .player-container { width: 100%; background: #000; min-height: 200px; position: relative; border-radius: 6px; overflow: hidden; margin-top: 10px; }
         .player-container video, .player-container iframe, .player-container audio { width: 100%; display: block; }
+
+        /* Video stage: the poster sits in the same box as the player and stays on top until playback starts */
+        .video-stage { position: relative; width: 100%; aspect-ratio: 16 / 9; min-height: 0; background: #000; isolation: isolate; }
+        .video-stage .player-frame { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; border: 0; background: #000; object-fit: contain; }
+        .video-stage .player-frame:empty { display: none; }
+        .video-poster { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; padding: 0; border: 0; cursor: pointer; background: #050508 center / cover no-repeat; transition: opacity 0.25s ease; }
+        .video-poster::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.65) 100%); }
+        .video-poster .play-btn-circle { position: relative; z-index: 1; width: 62px; height: 62px; font-size: 24px; transition: transform 0.2s; }
+        .video-poster:hover .play-btn-circle, .video-poster:focus-visible .play-btn-circle { transform: scale(1.1); }
+        .video-poster .poster-caption { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 10px; color: #fff; font-size: 12px; font-weight: 700; text-align: left; text-shadow: 0 1px 4px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .video-stage.is-playing .video-poster { opacity: 0; pointer-events: none; z-index: 0; }
+
+        /* Season & episode navigator */
+        .episode-nav { margin-top: 12px; background: #0f0f16; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 2fr) auto; gap: 8px; align-items: center; }
+        .episode-nav select { padding: 7px 10px; font-size: 13px; }
+        .episode-nav .ep-step { padding: 7px 10px; }
+        .episode-nav .ep-step:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+        .episode-now { grid-column: 1 / -1; font-size: 12px; color: var(--text-muted); }
+        .episode-now strong { color: var(--accent-gold); }
+
+        /* PR Team & CEO Cabin */
+        .cabin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .nom-card { background: #181824; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .nom-card h5 { font-size: 16px; color: #fff; }
+        .nom-meta { font-size: 12px; color: var(--text-muted); }
+        .nom-details { font-size: 13px; color: #c8c8da; white-space: pre-wrap; }
+        .status-pending { background: rgba(229,169,60,0.15); color: var(--accent-gold); border: 1px solid rgba(229,169,60,0.4); }
+        .account-id { font-family: ui-monospace, 'Cascadia Code', Menlo, monospace; font-size: 14px; letter-spacing: 1px; color: var(--accent-cyan); background: #0d0d14; padding: 3px 8px; border-radius: 4px; user-select: all; }
+        .account-issued { background: rgba(0,210,255,0.08); border: 1px solid rgba(0,210,255,0.35); border-radius: 6px; padding: 10px; font-size: 13px; }
+        .cabin-subhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin: 25px 0 12px; }
+        .auth-divider { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 12px; margin: 20px 0; text-transform: uppercase; letter-spacing: 1px; }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border-color); }
+
+        @media (max-width: 600px) {
+            .episode-nav { grid-template-columns: auto 1fr auto; }
+            .episode-nav .ep-season { grid-column: 1 / -1; order: -1; }
+            .emp-table { display: block; overflow-x: auto; }
+        }
         .pdf-viewer-frame { width: 100%; height: 420px; border: none; background: #fff; border-radius: 6px; }
 
         .card-actions { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
@@ -178,9 +259,11 @@
         </div>
 
         <div class="tabs-header">
-            <button class="tab-btn active" onclick="switchAdminTab('publish')">➕ Publish Content</button>
-            <button class="tab-btn" onclick="switchAdminTab('banners')">🏷️ Manage Banners</button>
-            <button class="tab-btn" id="freezeTabBtn" style="display:none;" onclick="switchAdminTab('freeze')">🔒 Employee ID Portal</button>
+            <button class="tab-btn active" data-tab="publish" onclick="switchAdminTab('publish')">➕ Publish Content</button>
+            <button class="tab-btn" data-tab="banners" onclick="switchAdminTab('banners')">🏷️ Manage Banners</button>
+            <button class="tab-btn" id="prTabBtn" style="display:none;" data-tab="pr" onclick="switchAdminTab('pr')">🤝 PR Nominations</button>
+            <button class="tab-btn" id="cabinTabBtn" style="display:none;" data-tab="cabin" onclick="switchAdminTab('cabin')">🏛️ CEO Cabin</button>
+            <button class="tab-btn" id="freezeTabBtn" style="display:none;" data-tab="freeze" onclick="switchAdminTab('freeze')">🔒 Employee ID Portal</button>
         </div>
 
         <!-- Tab 1: Publish Content -->
@@ -199,16 +282,16 @@
             </div>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div class="form-group"><label>Title / Name</label><input type="text" id="title" class="form-control"></div>
-                <div class="form-group"><label>Genre</label><input type="text" id="genre" class="form-control" placeholder="e.g. Action, Sci-Fi, Mystery"></div>
+                <div class="form-group"><label>Title / Name</label><input type="text" id="title" class="form-control" placeholder="e.g. The Last Kingdom" maxlength="200"></div>
+                <div class="form-group"><label>Genre</label><input type="text" id="genre" class="form-control" placeholder="e.g. Action, Drama, Sci-Fi"></div>
             </div>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div class="form-group"><label>Creator / Author / Studio</label><input type="text" id="creator" class="form-control" placeholder="e.g. Author Name or Studio"></div>
-                <div class="form-group"><label>Thumbnail / Cover Image URL</label><input type="text" id="thumbnail" class="form-control" placeholder="https://image-link.com/poster.jpg"></div>
+                <div class="form-group"><label>Creator / Author / Studio</label><input type="text" id="creator" class="form-control" placeholder="e.g. NiggaFlex Studios or author's full name"></div>
+                <div class="form-group"><label>Thumbnail / Cover Image URL</label><input type="text" id="thumbnail" class="form-control" placeholder="Poster image URL — https://…/poster.jpg (optional for archive.org videos)"></div>
             </div>
 
-            <div class="form-group"><label>Description</label><textarea id="description" class="form-control" rows="3"></textarea></div>
+            <div class="form-group"><label>Description</label><textarea id="description" class="form-control" rows="3" placeholder="A short synopsis viewers see on the card — plot, cast or what makes it worth watching"></textarea></div>
 
             <!-- Asset Inputs Area -->
             <div id="mediaAssetInputs" style="background:#181824; padding:18px; border-radius:8px; margin-bottom:20px; border:1px solid var(--border-color);">
@@ -217,46 +300,46 @@
                 <!-- Movie Inputs -->
                 <div id="movieInputs" class="form-group">
                     <label>Movie Video Stream URL (MP4 / Archive.org)</label>
-                    <input type="text" id="movieUrl" class="form-control" placeholder="https://archive.org/download/identifier/file.mp4">
+                    <input type="text" id="movieUrl" class="form-control" placeholder="Full movie link — https://archive.org/details/identifier or a direct .mp4 URL">
                     <label style="margin-top:10px;">Trailer Video URL (Optional)</label>
-                    <input type="text" id="movieTrailerUrl" class="form-control" placeholder="https://archive.org/download/trailer/file.mp4">
+                    <input type="text" id="movieTrailerUrl" class="form-control" placeholder="Optional trailer link — archive.org page or .mp4 URL">
                 </div>
 
                 <!-- Written Book Single Inputs (PDF Direct Upload) -->
                 <div id="pdfSingleInputs" class="form-group" style="display:none;">
                     <label>Upload Written Book PDF Document (Direct from storage)</label>
-                    <input type="file" id="pdfFileInput" class="form-control" accept=".pdf">
+                    <input type="file" id="pdfFileInput" class="form-control" accept=".pdf" title="Choose the book's PDF file" aria-label="Book PDF file">
                     <div id="pdfUploadStatus" style="font-size:12px; color:var(--accent-gold); margin-top:5px;"></div>
                 </div>
 
                 <!-- Audio Book Inputs -->
                 <div id="audioInputs" class="form-group" style="display:none;">
                     <label>Audio Stream URL (MP3 / M4A / Archive Audio Link)</label>
-                    <input type="text" id="audioUrl" class="form-control" placeholder="https://archive.org/download/identifier/audio.mp3">
+                    <input type="text" id="audioUrl" class="form-control" placeholder="Audio link — https://archive.org/download/identifier/audio.mp3">
                 </div>
 
                 <!-- Dual Sync Inputs -->
                 <div id="dualSyncInputs" class="form-group" style="display:none;">
                     <label>Upload Written PDF Document</label>
-                    <input type="file" id="dualPdfFileInput" class="form-control" accept=".pdf">
+                    <input type="file" id="dualPdfFileInput" class="form-control" accept=".pdf" title="Choose the book's PDF file" aria-label="Book PDF file">
                     <label style="margin-top:10px;">Audio Stream URL</label>
-                    <input type="text" id="dualAudioUrl" class="form-control" placeholder="https://archive.org/download/identifier/narration.mp3">
+                    <input type="text" id="dualAudioUrl" class="form-control" placeholder="Narration audio link — https://…/narration.mp3">
                 </div>
 
                 <!-- Picture Inputs -->
                 <div id="pictureInputs" class="form-group" style="display:none;">
                     <label>Picture / Image URL</label>
-                    <input type="text" id="pictureUrl" class="form-control" placeholder="https://example.com/image.jpg">
+                    <input type="text" id="pictureUrl" class="form-control" placeholder="Image link — https://…/picture.jpg">
                 </div>
 
                 <!-- Series / Staged Chapters Inputs -->
                 <div id="seriesInputs" style="display:none;">
                     <div class="notice-info">Stage multiple episodes or book chapters below:</div>
                     <div style="display:grid; grid-template-columns: 80px 80px 1fr 1.2fr; gap:10px; margin-bottom:10px;">
-                        <input type="number" id="epSeason" class="form-control" placeholder="Season/Vol" value="1">
-                        <input type="number" id="epNumber" class="form-control" placeholder="Ep/Ch" value="1">
-                        <input type="text" id="epName" class="form-control" placeholder="Episode/Chapter Name">
-                        <input type="text" id="epUrl" class="form-control" placeholder="Video/Audio URL or PDF Key">
+                        <input type="number" id="epSeason" class="form-control" placeholder="Season" title="Season or volume number" min="1" value="1">
+                        <input type="number" id="epNumber" class="form-control" placeholder="Ep." title="Episode or chapter number" min="1" value="1">
+                        <input type="text" id="epName" class="form-control" placeholder="Episode title, e.g. Pilot">
+                        <input type="text" id="epUrl" class="form-control" placeholder="Episode link — archive.org page, .mp4 or PDF URL">
                     </div>
                     <button class="btn btn-secondary btn-sm" onclick="addEpisodeToBatch()">+ Stage Chapter/Episode</button>
                     <div id="stagedEpisodesCount" style="margin-top:8px; font-weight:bold; color:var(--primary-hover);">Staged: 0 Items</div>
@@ -270,12 +353,12 @@
         <div id="tabBanners" class="tab-content" style="display:none;">
             <h4 style="margin-bottom:15px; color:var(--accent-gold);">Create Promotional Banner</h4>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div class="form-group"><label>Banner Title</label><input type="text" id="bannerTitle" class="form-control"></div>
-                <div class="form-group"><label>Badge Text</label><input type="text" id="bannerBadge" class="form-control" placeholder="e.g. FEATURED RELEASE"></div>
+                <div class="form-group"><label>Banner Title</label><input type="text" id="bannerTitle" class="form-control" placeholder="Headline, e.g. Season 2 Now Streaming"></div>
+                <div class="form-group"><label>Badge Text</label><input type="text" id="bannerBadge" class="form-control" placeholder="Short tag, e.g. NEW RELEASE"></div>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div class="form-group"><label>Subtitle / Description</label><input type="text" id="bannerSubtitle" class="form-control"></div>
-                <div class="form-group"><label>Image Poster URL</label><input type="text" id="bannerImageUrl" class="form-control"></div>
+                <div class="form-group"><label>Subtitle / Description</label><input type="text" id="bannerSubtitle" class="form-control" placeholder="One-line teaser shown under the headline"></div>
+                <div class="form-group"><label>Image Poster URL</label><input type="text" id="bannerImageUrl" class="form-control" placeholder="Poster image URL — https://…/banner.jpg"></div>
             </div>
             <div class="form-group">
                 <label>Target Section Link</label>
@@ -290,6 +373,50 @@
 
             <h4 style="margin-top:30px; margin-bottom:15px; color:#fff;">Active Banners</h4>
             <div id="adminBannersList"></div>
+        </div>
+
+        <!-- Tab: PR Team Nominations (Muzamil Shelby) -->
+        <div id="tabPr" class="tab-content" style="display:none;">
+            <h4 style="margin-bottom:6px; color:var(--accent-gold);">PR Team Nomination Registry</h4>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">
+                Muzamil Shelby's PR Team submits candidates here. Each nomination goes to the CEO Cabin for review by CEO Mubashir Holmes and Hassan Nolan.
+            </p>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div class="form-group"><label>Candidate Full Name *</label><input type="text" id="nomName" class="form-control" maxlength="120" placeholder="e.g. Ayesha Khan"></div>
+                <div class="form-group"><label>Proposed Role *</label><input type="text" id="nomRole" class="form-control" maxlength="120" placeholder="e.g. Content Curator, Social Media Lead"></div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div class="form-group"><label>Email</label><input type="email" id="nomEmail" class="form-control" maxlength="200" placeholder="candidate@example.com"></div>
+                <div class="form-group"><label>Phone</label><input type="tel" id="nomPhone" class="form-control" maxlength="50" placeholder="+92 300 1234567"></div>
+            </div>
+            <div class="form-group"><label>Why this candidate?</label><textarea id="nomDetails" class="form-control" rows="4" maxlength="2000" placeholder="Experience, skills, portfolio links and why they'd strengthen the NiggaFlex team"></textarea></div>
+            <button class="btn btn-success" onclick="submitNomination()">📨 Send to CEO Review Queue</button>
+
+            <h4 style="margin-top:30px; margin-bottom:15px; color:#fff;">Submitted Nominations</h4>
+            <div id="prNominationsList" class="cabin-grid"></div>
+        </div>
+
+        <!-- Tab: CEO Cabin (Mubashir Holmes & Hassan Nolan) -->
+        <div id="tabCabin" class="tab-content" style="display:none;">
+            <h4 style="margin-bottom:6px; color:var(--primary);">CEO Cabin — Candidate Review</h4>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">
+                Accepting a nomination issues the candidate a unique account ID they use to sign in. Staff IDs rotate automatically on the 6th of every month; executive profiles are permanent.
+            </p>
+            <div id="cabinPendingList" class="cabin-grid"></div>
+
+            <div class="cabin-subhead">
+                <h4 style="color:#fff;">Team Account Registry</h4>
+                <button class="btn btn-secondary btn-sm" id="rotateNowBtn" style="display:none;" onclick="rotateAccountsNow()">🔄 Rotate Staff IDs Now</button>
+            </div>
+            <table class="emp-table">
+                <thead>
+                    <tr><th>Member</th><th>Role</th><th>Account ID</th><th>Status</th><th>Issued</th></tr>
+                </thead>
+                <tbody id="accountsTableBody"></tbody>
+            </table>
+
+            <h4 style="margin-top:30px; margin-bottom:15px; color:#fff;">Review History</h4>
+            <div id="cabinHistoryList" class="cabin-grid"></div>
         </div>
 
         <!-- Tab 3: Freeze Employee Portal -->
@@ -341,12 +468,20 @@
 
         <div class="form-group">
             <label>Select Official Employee ID PDF Document</label>
-            <input type="file" id="idPdfInput" class="form-control" accept=".pdf">
+            <input type="file" id="idPdfInput" class="form-control" accept=".pdf" title="Choose your Employee ID PDF" aria-label="Employee ID PDF">
         </div>
 
-        <div id="authErrorMsg" style="color:var(--primary-hover); font-size:13px; margin-bottom:15px; display:none; background:rgba(217,28,28,0.1); padding:10px; border-radius:4px; border:1px solid rgba(217,28,28,0.3);"></div>
-
         <button class="btn" style="width:100%; justify-content:center;" onclick="submitAuthPdf()">🔓 Upload ID & Authenticate</button>
+
+        <div class="auth-divider">or sign in with a team account ID</div>
+
+        <div class="form-group">
+            <label>Team Account ID</label>
+            <input type="text" id="accountNumberInput" class="form-control account-id" autocomplete="off" spellcheck="false" placeholder="NFG-XXXX-XXXX-XXXX" onkeydown="if(event.key==='Enter') submitAccountLogin()">
+        </div>
+        <button class="btn btn-secondary" style="width:100%; justify-content:center; margin-bottom:15px;" onclick="submitAccountLogin()">🪪 Sign In with Account ID</button>
+
+        <div id="authErrorMsg" style="color:var(--primary-hover); font-size:13px; margin-bottom:15px; display:none; background:rgba(217,28,28,0.1); padding:10px; border-radius:4px; border:1px solid rgba(217,28,28,0.3);"></div>
     </div>
 </div>
 
@@ -359,14 +494,14 @@
         </div>
         <input type="hidden" id="editItemId">
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-            <div class="form-group"><label>Title</label><input type="text" id="editTitle" class="form-control"></div>
-            <div class="form-group"><label>Genre</label><input type="text" id="editGenre" class="form-control"></div>
+            <div class="form-group"><label>Title</label><input type="text" id="editTitle" class="form-control" placeholder="Title shown on the catalog card"></div>
+            <div class="form-group"><label>Genre</label><input type="text" id="editGenre" class="form-control" placeholder="e.g. Action, Drama, Sci-Fi"></div>
         </div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-            <div class="form-group"><label>Creator / Studio</label><input type="text" id="editCreator" class="form-control"></div>
-            <div class="form-group"><label>Thumbnail / Cover URL</label><input type="text" id="editThumbnail" class="form-control"></div>
+            <div class="form-group"><label>Creator / Studio</label><input type="text" id="editCreator" class="form-control" placeholder="Studio, director or author"></div>
+            <div class="form-group"><label>Thumbnail / Cover URL</label><input type="text" id="editThumbnail" class="form-control" placeholder="Poster image URL — https://…/poster.jpg"></div>
         </div>
-        <div class="form-group"><label>Description</label><textarea id="editDescription" class="form-control" rows="3"></textarea></div>
+        <div class="form-group"><label>Description</label><textarea id="editDescription" class="form-control" rows="3" placeholder="Short synopsis shown on the catalog card"></textarea></div>
 
         <div style="display:flex; gap:10px; margin-top:20px;">
             <button class="btn" onclick="saveEditedItem()">💾 Save Changes</button>
@@ -428,22 +563,152 @@
         return (str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    function getArchiveIdentifier(url) {
+    // Splits an archive.org URL into its identifier and (optional) file path, so a series
+    // whose episodes are separate files in one archive item plays the right file.
+    function parseArchiveUrl(url) {
         if (!url) return null;
-        const m = url.match(/archive\.org\/(?:download|details|embed)\/([^\/\?#]+)/);
-        return m ? m[1] : null;
+        const m = url.match(/archive\.org\/(?:download|details|embed)\/([^?#]+)/);
+        if (!m) return null;
+        const parts = m[1].replace(/\/+$/, '').split('/');
+        return { id: parts[0], file: parts.slice(1).join('/') };
     }
 
-    function buildPlayerHtml(url, itemId) {
+    function getArchiveIdentifier(url) {
+        const a = parseArchiveUrl(url);
+        return a ? a.id : null;
+    }
+
+    function cssUrl(url) {
+        return escHtml((url || '').replace(/['()\\\s]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0')));
+    }
+
+    // Movie rows store {videoUrl, trailerUrl} as JSON; series episodes store a plain URL.
+    function parseVideoData(raw) {
+        try {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') return { videoUrl: parsed.videoUrl || '', trailerUrl: parsed.trailerUrl || '' };
+        } catch (e) {}
+        return { videoUrl: raw || '', trailerUrl: '' };
+    }
+
+    // Renders a poster layered over the video frame. The real player is only created on
+    // click, so the thumbnail stays locked in place (and no embed loads) until playback begins.
+    function buildVideoStage(url, key, posterUrl, caption) {
         if (!url) return '<div class="loading-text">No media stream provided</div>';
-        const archiveId = getArchiveIdentifier(url);
-        if (archiveId) {
-            return `<iframe id="player-${itemId}" src="https://archive.org/embed/${archiveId}?autoplay=0" frameborder="0" allowfullscreen style="width:100%;height:100%;min-height:220px;"></iframe>`;
+        const archive = parseArchiveUrl(url);
+        const poster = posterUrl || (archive ? `https://archive.org/services/img/${encodeURIComponent(archive.id)}` : '');
+        return `<div class="video-stage" id="stage-${key}" data-url="${escHtml(url)}">
+                    <button type="button" class="video-poster" style="background-image:url('${cssUrl(poster)}')" onclick="startPlayback('${key}')" aria-label="Play ${escHtml(caption || 'video')}">
+                        <span class="play-btn-circle">▶</span>
+                        ${caption ? `<span class="poster-caption">${escHtml(caption)}</span>` : ''}
+                    </button>
+                </div>`;
+    }
+
+    function startPlayback(key) {
+        const stage = document.getElementById(`stage-${key}`);
+        if (!stage || stage.querySelector('.player-frame')) return;
+        const url = stage.dataset.url;
+        const archive = parseArchiveUrl(url);
+        stage.querySelector('.play-btn-circle').textContent = '⏳';
+
+        if (archive) {
+            const path = [archive.id, archive.file].filter(Boolean).map(seg => seg.split('/').map(encodeURIComponent).join('/')).join('/');
+            const iframe = document.createElement('iframe');
+            iframe.className = 'player-frame';
+            iframe.src = `https://archive.org/embed/${path}?autoplay=1`;
+            iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+            iframe.allowFullscreen = true;
+            // A cross-origin embed can't report its play state, so lift the poster once it has loaded.
+            iframe.addEventListener('load', () => stage.classList.add('is-playing'), { once: true });
+            stage.prepend(iframe);
+            return;
         }
-        return `<video id="player-${itemId}" controls preload="metadata" style="width:100%;height:100%;max-height:260px;">
-                    <source src="${escHtml(url)}" type="video/mp4">
-                    Your browser does not support video playback.
-                </video>`;
+
+        const video = document.createElement('video');
+        video.className = 'player-frame';
+        video.controls = true;
+        video.preload = 'auto';
+        video.playsInline = true;
+        video.src = url;
+        video.addEventListener('playing', () => stage.classList.add('is-playing'), { once: true });
+        video.addEventListener('error', () => stage.classList.add('is-playing'), { once: true });
+        stage.prepend(video);
+        video.play().catch(() => stage.classList.add('is-playing'));
+    }
+
+    // Season & episode navigation for series and multi-volume books.
+    const episodeState = {};
+
+    function episodeLabel(item, ep) {
+        const unit = item.type === 'book_series' ? 'Ch.' : 'E';
+        return `${unit}${ep.episode}${ep.name ? ' · ' + ep.name : ''}`;
+    }
+
+    function seasonLabel(item, season) {
+        return `${item.type === 'book_series' ? 'Volume' : 'Season'} ${season}`;
+    }
+
+    function buildEpisodeBody(item, autoplay) {
+        const eps = item.content;
+        const idx = Math.min(episodeState[item.id] || 0, eps.length - 1);
+        const current = eps[idx];
+        const key = `${item.id}-${idx}`;
+
+        let media;
+        if (item.type === 'book_series') {
+            const pdfUrl = current.url;
+            media = `<div class="player-container"><iframe src="${escHtml(pdfUrl)}" class="pdf-viewer-frame" title="${escHtml(item.title)}"></iframe></div>
+                     <div class="card-actions">
+                         <a href="${escHtml(pdfUrl)}" target="_blank" rel="noopener" class="btn btn-sm">📖 Open Full PDF</a>
+                         <a href="${escHtml(pdfUrl)}" download class="btn btn-secondary btn-sm">⬇ Download PDF</a>
+                     </div>`;
+        } else {
+            const { videoUrl } = parseVideoData(current.url);
+            const caption = `${seasonLabel(item, current.season)} · ${episodeLabel(item, current)}`;
+            media = `<div class="player-container">${buildVideoStage(videoUrl, key, item.thumbnail, caption)}</div>`;
+        }
+
+        if (eps.length < 2) return media;
+
+        const seasons = [...new Set(eps.map(e => e.season))];
+        const seasonOptions = seasons.map(sn => {
+            const count = eps.filter(e => e.season === sn).length;
+            return `<option value="${sn}" ${sn === current.season ? 'selected' : ''}>${seasonLabel(item, sn)} (${count})</option>`;
+        }).join('');
+        const episodeOptions = eps
+            .map((ep, i) => ({ ep, i }))
+            .filter(({ ep }) => ep.season === current.season)
+            .map(({ ep, i }) => `<option value="${i}" ${i === idx ? 'selected' : ''}>${escHtml(episodeLabel(item, ep))}</option>`)
+            .join('');
+
+        const nav = `<div class="episode-nav">
+                <button type="button" class="btn btn-secondary btn-sm ep-step" onclick="selectEpisode(${item.id}, ${idx - 1})" ${idx === 0 ? 'disabled' : ''} aria-label="Previous">◀</button>
+                <select class="form-control ep-season" aria-label="${seasonLabel(item, '').trim()}" onchange="selectSeason(${item.id}, Number(this.value))" ${seasons.length < 2 ? 'disabled' : ''}>${seasonOptions}</select>
+                <select class="form-control" aria-label="Episode" onchange="selectEpisode(${item.id}, Number(this.value))">${episodeOptions}</select>
+                <button type="button" class="btn btn-secondary btn-sm ep-step" onclick="selectEpisode(${item.id}, ${idx + 1})" ${idx === eps.length - 1 ? 'disabled' : ''} aria-label="Next">▶</button>
+                <div class="episode-now">Now showing: <strong>${seasonLabel(item, current.season)} · ${escHtml(episodeLabel(item, current))}</strong> — ${idx + 1} of ${eps.length}</div>
+            </div>`;
+
+        return media + nav;
+    }
+
+    function selectEpisode(itemId, index) {
+        const item = catalog.find(i => i.id === itemId);
+        if (!item || index < 0 || index >= item.content.length) return;
+        episodeState[itemId] = index;
+        const wrap = document.getElementById(`episodes-${itemId}`);
+        if (!wrap) return;
+        wrap.innerHTML = buildEpisodeBody(item);
+        // Switching episodes is an explicit play request, so start the new one straight away.
+        if (item.type !== 'book_series') startPlayback(`${itemId}-${index}`);
+    }
+
+    function selectSeason(itemId, season) {
+        const item = catalog.find(i => i.id === itemId);
+        if (!item) return;
+        const first = item.content.findIndex(e => e.season === season);
+        if (first >= 0) selectEpisode(itemId, first);
     }
 
     // Auth & Employee Management
@@ -475,14 +740,50 @@
             const data = await res.json();
 
             if (res.ok && data.success) {
-                adminToken = data.token;
-                currentEmployee = data.employee;
-                localStorage.setItem('adminToken', adminToken);
-                localStorage.setItem('adminEmployee', JSON.stringify(currentEmployee));
+                completeLogin(data);
+            } else {
+                errEl.innerText = data.error || 'Authentication failed.';
+                errEl.style.display = 'block';
+            }
+        } catch (err) {
+            errEl.innerText = 'Error connecting to authentication server.';
+            errEl.style.display = 'block';
+        }
+    }
 
-                closeAuthModal();
-                updateAdminDashboardUI();
-                renderCatalog();
+    function completeLogin(data) {
+        adminToken = data.token;
+        currentEmployee = data.employee;
+        localStorage.setItem('adminToken', adminToken);
+        localStorage.setItem('adminEmployee', JSON.stringify(currentEmployee));
+
+        closeAuthModal();
+        updateAdminDashboardUI();
+        renderCatalog();
+    }
+
+    async function submitAccountLogin() {
+        const input = document.getElementById('accountNumberInput');
+        const errEl = document.getElementById('authErrorMsg');
+        errEl.style.display = 'none';
+
+        const accountNumber = input.value.trim();
+        if (!accountNumber) {
+            errEl.innerText = 'Enter the account ID issued to you by the CEO Cabin.';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ accountNumber })
+            });
+            const data = await res.json();
+            if (res.ok && data.success) {
+                input.value = '';
+                completeLogin(data);
             } else {
                 errEl.innerText = data.error || 'Authentication failed.';
                 errEl.style.display = 'block';
@@ -508,16 +809,25 @@
         document.getElementById('adminDashboard').style.display = 'block';
         document.getElementById('empBadge').innerText = `Logged in: ${currentEmployee.name} (${currentEmployee.role.toUpperCase()})`;
 
-        if (currentEmployee.role === 'ceo' || currentEmployee.role === 'co_exec') {
-            document.getElementById('freezeTabBtn').style.display = 'inline-block';
-            loadEmployeeFreezeList();
-        } else {
-            document.getElementById('freezeTabBtn').style.display = 'none';
-        }
+        const exec = isExecutiveUser();
+        document.getElementById('freezeTabBtn').style.display = exec ? 'inline-block' : 'none';
+        document.getElementById('cabinTabBtn').style.display = exec ? 'inline-block' : 'none';
+        document.getElementById('prTabBtn').style.display = isPrTeamUser() ? 'inline-block' : 'none';
+        document.getElementById('rotateNowBtn').style.display = currentEmployee.role === 'ceo' ? 'inline-flex' : 'none';
+        if (exec) loadEmployeeFreezeList();
+        switchAdminTab('publish');
+    }
+
+    function isExecutiveUser() {
+        return !!currentEmployee && (currentEmployee.role === 'ceo' || currentEmployee.role === 'co_exec');
+    }
+
+    function isPrTeamUser() {
+        return !!currentEmployee && (currentEmployee.idKey === 'muzamil_shelby' || isExecutiveUser());
     }
 
     function switchAdminTab(tab) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
         document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
 
         if (tab === 'publish') {
@@ -525,6 +835,12 @@
         } else if (tab === 'banners') {
             document.getElementById('tabBanners').style.display = 'block';
             loadAdminBanners();
+        } else if (tab === 'pr') {
+            document.getElementById('tabPr').style.display = 'block';
+            loadPrNominations();
+        } else if (tab === 'cabin') {
+            document.getElementById('tabCabin').style.display = 'block';
+            loadCeoCabin();
         } else if (tab === 'freeze') {
             document.getElementById('tabFreeze').style.display = 'block';
             loadEmployeeFreezeList();
@@ -584,6 +900,127 @@
         } else {
             alert(data.error || 'Operation failed');
         }
+    }
+
+    // PR Team nominations & CEO Cabin
+    async function staffApi(url, options = {}) {
+        const res = await fetch(url, {
+            ...options,
+            headers: { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json', ...(options.headers || {}) }
+        });
+        const data = res.status === 204 ? null : await res.json().catch(() => null);
+        if (res.status === 401) {
+            alert('Your session has ended (your ID may have been rotated or frozen). Please sign in again.');
+            logoutAdmin();
+        }
+        return { ok: res.ok, data };
+    }
+
+    function formatDate(value) {
+        return value ? new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '—';
+    }
+
+    function nominationStatusBadge(status) {
+        const cls = status === 'approved' ? 'status-active' : status === 'rejected' ? 'status-frozen' : 'status-pending';
+        return `<span class="status-badge ${cls}">${escHtml(status)}</span>`;
+    }
+
+    function nominationCardHtml(n, actionsHtml = '') {
+        const contact = [n.email, n.phone].filter(Boolean).map(escHtml).join(' · ');
+        const review = n.reviewedBy
+            ? `<div class="nom-meta">Reviewed by ${escHtml(n.reviewedBy)} on ${formatDate(n.reviewedAt)}${n.reviewNote ? ` — “${escHtml(n.reviewNote)}”` : ''}</div>`
+            : '';
+        return `<div class="nom-card">
+                <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
+                    <h5>${escHtml(n.candidateName)}</h5>${nominationStatusBadge(n.status)}
+                </div>
+                <div class="nom-meta"><strong style="color:var(--accent-gold);">${escHtml(n.proposedRole)}</strong>${contact ? ' · ' + contact : ''}</div>
+                ${n.details ? `<div class="nom-details">${escHtml(n.details)}</div>` : ''}
+                <div class="nom-meta">Nominated by ${escHtml(n.submittedBy)} on ${formatDate(n.createdAt)}</div>
+                ${review}
+                ${actionsHtml}
+            </div>`;
+    }
+
+    async function submitNomination() {
+        const fields = { candidateName: 'nomName', proposedRole: 'nomRole', email: 'nomEmail', phone: 'nomPhone', details: 'nomDetails' };
+        const body = Object.fromEntries(Object.entries(fields).map(([k, id]) => [k, document.getElementById(id).value.trim()]));
+        if (!body.candidateName || !body.proposedRole) return alert('Candidate name and proposed role are required.');
+
+        const { ok, data } = await staffApi('/api/nominations', { method: 'POST', body: JSON.stringify(body) });
+        if (!ok) return alert(data?.error || 'Failed to submit nomination.');
+
+        Object.values(fields).forEach(id => document.getElementById(id).value = '');
+        alert(`${data.candidateName} has been sent to the CEO review queue.`);
+        loadPrNominations();
+    }
+
+    async function loadPrNominations() {
+        const list = document.getElementById('prNominationsList');
+        list.innerHTML = '<p class="nom-meta">Loading…</p>';
+        const { ok, data } = await staffApi('/api/nominations');
+        if (!ok) { list.innerHTML = `<p class="nom-meta">${escHtml(data?.error || 'Could not load nominations.')}</p>`; return; }
+        list.innerHTML = data.length ? data.map(n => nominationCardHtml(n)).join('') : '<p class="nom-meta">No nominations submitted yet.</p>';
+    }
+
+    async function loadCeoCabin() {
+        const pendingEl = document.getElementById('cabinPendingList');
+        const historyEl = document.getElementById('cabinHistoryList');
+        pendingEl.innerHTML = '<p class="nom-meta">Loading review queue…</p>';
+
+        const [noms, accounts] = await Promise.all([staffApi('/api/nominations'), staffApi('/api/accounts')]);
+
+        if (noms.ok) {
+            const pending = noms.data.filter(n => n.status === 'pending');
+            const reviewed = noms.data.filter(n => n.status !== 'pending');
+            pendingEl.innerHTML = pending.length
+                ? pending.map(n => nominationCardHtml(n, `
+                    <input type="text" id="reviewNote-${n.id}" class="form-control" maxlength="500" placeholder="Optional note to the PR Team, e.g. reason for decision">
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-success btn-sm" onclick="reviewNomination(${n.id}, 'approve')">✅ Accept & Issue ID</button>
+                        <button class="btn btn-danger btn-sm" onclick="reviewNomination(${n.id}, 'reject')">✖ Reject</button>
+                    </div>`)).join('')
+                : '<p class="nom-meta">The review queue is empty — no pending nominations.</p>';
+            historyEl.innerHTML = reviewed.length ? reviewed.map(n => nominationCardHtml(n)).join('') : '<p class="nom-meta">No decisions recorded yet.</p>';
+        } else {
+            pendingEl.innerHTML = `<p class="nom-meta">${escHtml(noms.data?.error || 'Could not load nominations.')}</p>`;
+        }
+
+        const tbody = document.getElementById('accountsTableBody');
+        if (accounts.ok) {
+            tbody.innerHTML = accounts.data.map(a => `
+                <tr>
+                    <td><strong>${escHtml(a.memberName)}</strong>${a.title ? `<div class="nom-meta">${escHtml(a.title)}</div>` : ''}</td>
+                    <td>${escHtml(a.role.toUpperCase())}${a.isPermanent ? ' <span class="status-badge status-pending">PERMANENT</span>' : ''}</td>
+                    <td><span class="account-id">${escHtml(a.accountNumber)}</span></td>
+                    <td><span class="status-badge ${a.status === 'active' ? 'status-active' : 'status-frozen'}">${escHtml(a.status)}</span></td>
+                    <td class="nom-meta">${formatDate(a.createdAt)}<br>${escHtml(a.issuedBy)}</td>
+                </tr>`).join('') || '<tr><td colspan="5" class="nom-meta">No accounts issued yet.</td></tr>';
+        } else {
+            tbody.innerHTML = `<tr><td colspan="5" class="nom-meta">${escHtml(accounts.data?.error || 'Could not load accounts.')}</td></tr>`;
+        }
+    }
+
+    async function reviewNomination(id, action) {
+        const verb = action === 'approve' ? 'accept' : 'reject';
+        if (!confirm(`Are you sure you want to ${verb} this nomination?`)) return;
+        const note = (document.getElementById(`reviewNote-${id}`)?.value || '').trim();
+
+        const { ok, data } = await staffApi(`/api/nominations?id=${id}`, { method: 'PATCH', body: JSON.stringify({ action, note }) });
+        if (!ok) return alert(data?.error || 'Review failed.');
+
+        if (data.account) {
+            alert(`${data.nomination.candidateName} approved.\n\nNew account ID: ${data.account.accountNumber}\n\nShare this ID with the new team member — they sign in with it from the Admin Portal.`);
+        }
+        loadCeoCabin();
+    }
+
+    async function rotateAccountsNow() {
+        if (!confirm('Deactivate every staff account ID now and issue replacements? Executive profiles are not affected.')) return;
+        const { ok, data } = await staffApi('/api/accounts', { method: 'POST', body: '{}' });
+        if (!ok) return alert(data?.error || 'Rotation failed.');
+        alert(`Rotation complete: ${data.rotated.length} staff ID(s) reissued.`);
+        loadCeoCabin();
     }
 
     // Form mode & upload
@@ -903,7 +1340,7 @@
 
             // Render Poster Thumbnail
             let thumbnailHtml = '';
-            if (item.thumbnail) {
+            if (item.thumbnail && item.type !== 'movie' && item.type !== 'series') {
                 thumbnailHtml = `<div class="card-thumbnail-box">
                     <img src="${escHtml(item.thumbnail)}" alt="${escHtml(item.title)}">
                     <div class="card-play-overlay">
@@ -917,20 +1354,15 @@
             const firstContent = item.content[0] || {};
             let rawUrlData = firstContent.url || '';
 
-            if (item.type === 'movie' || item.type === 'series') {
-                let videoUrl = rawUrlData;
-                let trailerUrl = '';
-                try {
-                    const parsed = JSON.parse(rawUrlData);
-                    videoUrl = parsed.videoUrl || rawUrlData;
-                    trailerUrl = parsed.trailerUrl || '';
-                } catch(e) {}
-
-                const player = buildPlayerHtml(videoUrl, item.id);
-                const trailerBtn = trailerUrl ? `<a href="${escHtml(trailerUrl)}" target="_blank" class="btn btn-secondary btn-sm" style="margin-top:10px;">🎬 Watch Trailer</a>` : '';
-
+            if (item.type === 'series' || (item.type === 'book_series' && item.content.length > 1)) {
+                playerContentHtml = item.content.length
+                    ? `<div id="episodes-${item.id}">${buildEpisodeBody(item)}</div>`
+                    : '<div class="loading-text">No episodes published yet</div>';
+            } else if (item.type === 'movie') {
+                const { videoUrl, trailerUrl } = parseVideoData(rawUrlData);
+                const player = buildVideoStage(videoUrl, `${item.id}-0`, item.thumbnail, item.title);
+                const trailerBtn = trailerUrl ? `<a href="${escHtml(trailerUrl)}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="margin-top:10px;">🎬 Watch Trailer</a>` : '';
                 playerContentHtml = `<div class="player-container">${player}</div>${trailerBtn}`;
-
             } else if (item.type === 'book_single' || item.type === 'book_series') {
                 const pdfUrl = rawUrlData;
                 playerContentHtml = `

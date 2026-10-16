@@ -1,18 +1,6 @@
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-
-async function getSession(req: Request) {
-  const authHeader = req.headers.get("authorization") || "";
-  const token = authHeader.replace("Bearer ", "").trim();
-  if (!token) return null;
-
-  const sessionStore = getStore({ name: "admin-sessions", consistency: "strong" });
-  return (await sessionStore.get(token, { type: "json" })) as {
-    idKey: string;
-    name: string;
-    role: string;
-  } | null;
-}
+import { getSession } from "../lib/session.js";
 
 export default async (req: Request) => {
   const bannerStore = getStore({ name: "promotional-banners", consistency: "strong" });

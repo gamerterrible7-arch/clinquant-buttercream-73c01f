@@ -1,5 +1,8 @@
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
+import { and, eq } from "drizzle-orm";
+import { db } from "../../db/index.js";
+import { teamAccounts } from "../../db/schema.js";
 
 // Allowed employee identities matching PDF IDs
 const KNOWN_EMPLOYEES = [
@@ -35,6 +38,43 @@ const KNOWN_EMPLOYEES = [
   }
 ];
 
+// Sign-in for team members issued an account ID through the CEO Cabin approval flow.
+async function loginWithAccountNumber(raw: string) {
+  const accountNumber = raw.trim().toUpperCase();
+  const [account] = await db
+    .select()
+    .from(teamAccounts)
+    .where(and(eq(teamAccounts.accountNumber, accountNumber), eq(teamAccounts.status, "active")));
+
+  if (!account) {
+    return Response.json({ success: false, error: "Account ID not recognized or deactivated by the monthly rotation." }, { status: 401 });
+  }
+
+  const freezeStore = getStore({ name: "employee-freeze", consistency: "strong" });
+  const freezeState = await freezeStore.get(account.memberKey, { type: "json" }) as { isFrozen: boolean } | null;
+  if (freezeState?.isFrozen) {
+    return Response.json({ success: false, error: `ACCESS DENIED: ${account.memberName}'s ID has been FROZEN by management.` }, { status: 403 });
+  }
+
+  const token = `${account.memberKey}_${Date.now()}_${crypto.randomUUID()}`;
+  const sessionStore = getStore({ name: "admin-sessions", consistency: "strong" });
+  await sessionStore.setJSON(token, {
+    idKey: account.memberKey,
+    name: account.memberName,
+    role: account.role,
+    accountNumber: account.accountNumber,
+    createdAt: Date.now()
+  });
+
+  const isManagement = account.role === "ceo" || account.role === "co_exec";
+  return Response.json({
+    success: true,
+    token,
+    employee: { idKey: account.memberKey, name: account.memberName, role: account.role, accountNumber: account.accountNumber },
+    permissions: { canDelete: isManagement, canFreeze: isManagement, canAddEdit: true }
+  });
+}
+
 export default async (req: Request) => {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
@@ -57,6 +97,9 @@ export default async (req: Request) => {
       fileText = decoder.decode(buffer).toLowerCase();
     } else {
       const body = await req.json().catch(() => ({}));
+      if (typeof body.accountNumber === "string" && body.accountNumber.trim()) {
+        return await loginWithAccountNumber(body.accountNumber);
+      }
       filename = (body.filename || "").toLowerCase();
       fileText = (body.fileData || "").toLowerCase();
     }
