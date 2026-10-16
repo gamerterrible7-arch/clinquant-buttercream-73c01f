@@ -9,6 +9,6 @@
     "rootDir": ".",
     "skipLibCheck": true
   },
-  "include": ["netlify/functions/**/*", "db/**/*"],
+  "include": ["netlify/functions/**/*", "netlify/lib/**/*", "db/**/*"],
   "exclude": ["node_modules"]
 }

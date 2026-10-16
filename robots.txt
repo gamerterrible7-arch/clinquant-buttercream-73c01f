@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://clinquant-buttercream-73c01f.netlify.app/sitemap.xml

@@ -2,32 +2,7 @@ import type { Config } from "@netlify/functions";
 import { db } from "../../db/index.js";
 import { mediaItems, episodes } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
-import { getStore } from "@netlify/blobs";
-
-async function getSession(req: Request) {
-  const authHeader = req.headers.get("authorization") || "";
-  const token = authHeader.replace("Bearer ", "").trim();
-  if (!token) return null;
-
-  const sessionStore = getStore({ name: "admin-sessions", consistency: "strong" });
-  const session = await sessionStore.get(token, { type: "json" }) as {
-    idKey: string;
-    name: string;
-    role: string;
-  } | null;
-
-  if (!session) return null;
-
-  // Double check if employee ID was frozen in the meantime
-  const freezeStore = getStore({ name: "employee-freeze", consistency: "strong" });
-  const freezeState = await freezeStore.get(session.idKey, { type: "json" }) as { isFrozen: boolean } | null;
-
-  if (freezeState && freezeState.isFrozen) {
-    return null;
-  }
-
-  return session;
-}
+import { getSession } from "../lib/session.js";
 
 export default async (req: Request) => {
   if (req.method === "GET") {
