@@ -262,7 +262,7 @@
             <button class="tab-btn active" data-tab="publish" onclick="switchAdminTab('publish')">➕ Publish Content</button>
             <button class="tab-btn" data-tab="banners" onclick="switchAdminTab('banners')">🏷️ Manage Banners</button>
             <button class="tab-btn" id="prTabBtn" style="display:none;" data-tab="pr" onclick="switchAdminTab('pr')">🤝 PR Nominations</button>
-            <button class="tab-btn" id="cabinTabBtn" style="display:none;" data-tab="cabin" onclick="switchAdminTab('cabin')">🏛️ CEO Cabin</button>
+            <button class="tab-btn" id="cabinTabBtn" style="display:none;" data-tab="cabin" onclick="switchAdminTab('cabin')">🏛️ <span class="cabin-label">CEO Cabin</span></button>
             <button class="tab-btn" id="freezeTabBtn" style="display:none;" data-tab="freeze" onclick="switchAdminTab('freeze')">🔒 Employee ID Portal</button>
         </div>
 
@@ -398,7 +398,7 @@
 
         <!-- Tab: CEO Cabin (Mubashir Holmes & Hassan Nolan) -->
         <div id="tabCabin" class="tab-content" style="display:none;">
-            <h4 style="margin-bottom:6px; color:var(--primary);">CEO Cabin — Candidate Review</h4>
+            <h4 style="margin-bottom:6px; color:var(--primary);"><span class="cabin-label">CEO Cabin</span> — Candidate Review</h4>
             <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">
                 Accepting a nomination issues the candidate a unique account ID they use to sign in. Staff IDs rotate automatically on the 6th of every month; executive profiles are permanent.
             </p>
@@ -812,6 +812,8 @@
         const exec = isExecutiveUser();
         document.getElementById('freezeTabBtn').style.display = exec ? 'inline-block' : 'none';
         document.getElementById('cabinTabBtn').style.display = exec ? 'inline-block' : 'none';
+        const cabinName = currentEmployee.idKey === 'hassan_nolan' ? 'CFO Cabin' : 'CEO Cabin';
+        document.querySelectorAll('.cabin-label').forEach(el => el.textContent = cabinName);
         document.getElementById('prTabBtn').style.display = isPrTeamUser() ? 'inline-block' : 'none';
         document.getElementById('rotateNowBtn').style.display = currentEmployee.role === 'ceo' ? 'inline-flex' : 'none';
         if (exec) loadEmployeeFreezeList();
